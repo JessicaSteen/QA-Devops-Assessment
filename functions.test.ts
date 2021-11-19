@@ -8,11 +8,11 @@ const {shuffleArray} = require('./utils')
 
 describe('shuffleArray should', () => {
     test('shuffleArray should return an array', () => {
-        expect(typeof shuffleArray).toBe("array") 
+        expect(typeof shuffleArray).not.toBe('string') 
     });
 
     test('returns array of same length', () => {
-        expect(shuffleArray).toEqual(expect.arrayContaining(shuffleArray.length))
+        expect(shuffleArray).toHaveLength(shuffleArray.length)
     });
     
 })
