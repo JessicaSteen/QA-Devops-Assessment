@@ -13,6 +13,6 @@ describe('shuffleArray should', () => {
 
     test('returns array of same length', () => {
         expect(shuffleArray).toEqual(expect.arrayContaining(shuffleArray.length))
-    });
+    });shuffleArray
     
 })
