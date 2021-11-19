@@ -4,10 +4,20 @@ const app = express()
 const {bots, playerRecord} = require('./data')
 const {shuffleArray} = require('./utils')
 
+var Rollbar = require('rollbar')
+var rollbar = new Rollbar({
+  accessToken: 'f858a3e0c7814c87bd8505bb817b87b2',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+})
+
+rollbar.log('Hello world!')
+
 app.use(express.json())
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "/public/index.html"));
+    rollbar.info('HTML file served successfully');
   });
 
 app.get("/styles", (req, res) => {
@@ -21,8 +31,10 @@ app.get("/js", (req, res) => {
 
 app.get('/api/robots', (req, res) => {
     try {
+        rollbar.info("Got the array of bots");
         res.status(200).send(botsArr)
     } catch (error) {
+        rollbar.log('Error, couldnt get bots');
         console.log('ERROR GETTING BOTS', error)
         res.sendStatus(400)
     }
@@ -35,6 +47,7 @@ app.get('/api/robots/five', (req, res) => {
         let compDuo = shuffled.slice(6, 8)
         res.status(200).send({choices, compDuo})
     } catch (error) {
+        rollbar.error("Error, getting give bots")
         console.log('ERROR GETTING FIVE BOTS', error)
         res.sendStatus(400)
     }
